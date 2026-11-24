@@ -1,0 +1,632 @@
+:root {
+    --bg-main: #0b0b0d;
+    --bg-card: #141418;
+    --bg-input: #1c1c22;
+    --border-color: #272730;
+    --red: #e51926;
+    --red-hover: #ff2432;
+    --green: #16a34a;
+    --text-main: #ffffff;
+    --text-muted: #9ca3af;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    overflow-x: hidden;
+    padding-bottom: 72px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Анимация входа: 2D Porsche 911 + красный дым + автоскрытие */
+.intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(circle at center, #1f0609 0%, #070709 75%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    animation: introFadeOut 0.6s ease 2.4s forwards;
+}
+
+@keyframes introFadeOut {
+    0% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+.smoke-layer {
+    position: absolute;
+    inset: -20%;
+    background:
+        radial-gradient(circle at 30% 55%, rgba(229, 25, 38, 0.45), transparent 45%),
+        radial-gradient(circle at 60% 45%, rgba(180, 15, 25, 0.35), transparent 50%),
+        radial-gradient(circle at 50% 65%, rgba(255, 45, 60, 0.25), transparent 55%);
+    filter: blur(28px);
+    animation: smokePulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes smokePulse {
+    0% { transform: scale(0.95) translateX(-15px); opacity: 0.65; }
+    100% { transform: scale(1.12) translateX(20px); opacity: 1; }
+}
+
+.intro-car-track {
+    position: relative;
+    width: 100%;
+    max-width: 760px;
+    height: 120px;
+    margin-bottom: 10px;
+}
+
+.intro-porsche-wrap {
+    position: absolute;
+    bottom: 6px;
+    left: -340px;
+    width: 280px;
+    animation: porscheDriveIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes porscheDriveIn {
+    0% { left: -340px; }
+    100% { left: calc(50% - 140px); }
+}
+
+.porsche-svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 18px rgba(229, 25, 38, 0.5));
+}
+
+.p-wheel-rear {
+    transform-origin: 80px 82px;
+    animation: wheelSpin 0.4s linear infinite;
+}
+
+.p-wheel-front {
+    transform-origin: 244px 82px;
+    animation: wheelSpin 0.4s linear infinite;
+}
+
+@keyframes wheelSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.intro-brand-box {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.intro-logo-text {
+    font-size: 64px;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 6px;
+    color: #ffffff;
+    text-shadow:
+        0 0 18px rgba(229, 25, 38, 0.95),
+        0 0 42px rgba(229, 25, 38, 0.75);
+    opacity: 0;
+    animation: smokeRevealLogo 1s ease 0.65s forwards;
+}
+
+@keyframes smokeRevealLogo {
+    0% { opacity: 0; transform: scale(0.85); filter: blur(10px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+.intro-sub {
+    margin-top: 8px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #fca5a5;
+    font-weight: 700;
+}
+
+.intro-skip-btn {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* Основной каркас */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #0f0f12;
+    border-right: 1px solid var(--border-color);
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 50;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    padding-left: 8px;
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.logo-icon {
+    background: linear-gradient(135deg, #fff, #999);
+    color: #000;
+    font-weight: 800;
+    font-size: 22px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-style: italic;
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nav-item {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: rgba(229, 25, 38, 0.15);
+    color: #fff;
+    border-left: 3px solid var(--red);
+}
+
+.club-card {
+    margin-top: auto;
+    background: linear-gradient(180deg, #1b1b22 0%, #111115 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.club-card h4 { font-size: 14px; margin-bottom: 6px; }
+.club-card p { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
+.sidebar-footer { margin-top: 14px; font-size: 11px; color: #6b7280; }
+
+.main-content {
+    flex: 1;
+    padding: 0 28px 40px;
+    max-width: 1440px;
+    min-width: 0;
+}
+
+/* Шапка */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-color);
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.top-left { display: flex; align-items: center; gap: 16px; }
+
+.mobile-menu-btn {
+    display: none;
+    background: var(--bg-input);
+    color: #fff;
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.top-links { display: flex; gap: 20px; }
+.top-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 6px;
+}
+.top-links a.active { color: #fff; border-bottom: 2px solid var(--red); }
+
+.top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.lang-dropdown-wrap { position: relative; }
+
+.lang-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    min-width: 150px;
+    padding: 6px;
+    z-index: 120;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+.lang-menu.open { display: flex; flex-direction: column; gap: 4px; }
+
+.lang-menu button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    text-align: left;
+    padding: 8px 10px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.lang-menu button:hover {
+    background: rgba(229, 25, 38, 0.2);
+}
+
+.btn-primary {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-primary:hover { background: var(--red-hover); }
+
+.btn-outline, .btn-login, .lang-switch, .btn-secondary {
+    background: var(--bg-input);
+    color: #fff;
+    border: 1px solid var(--border-color);
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.lang-switch:hover, .btn-login:hover { border-color: var(--red); }
+
+/* Hero */
+.hero {
+    margin-top: 20px;
+    min-height: 270px;
+    border-radius: 18px;
+    background: linear-gradient(90deg, rgba(11,11,13,0.92) 35%, rgba(11,11,13,0.25) 100%),
+                url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1400&q=80') center/cover;
+    display: flex;
+    align-items: center;
+    padding: 36px;
+    border: 1px solid var(--border-color);
+}
+
+.hero-title { font-size: 50px; font-weight: 800; font-style: italic; letter-spacing: 2px; }
+.hero-subtitle { font-size: 22px; font-weight: 700; margin: 8px 0 20px; line-height: 1.3; }
+
+.btn-hero {
+    display: inline-block;
+    padding: 11px 20px;
+    border: 1px solid var(--red);
+    border-radius: 25px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-hero:hover { background: var(--red); }
+
+/* Фильтры */
+.filters-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 18px;
+    margin-top: 20px;
+}
+
+.search-row { display: grid; grid-template-columns: 1fr 240px; gap: 12px; margin-bottom: 12px; }
+.filter-controls { display: grid; grid-template-columns: 170px 1fr 1fr auto auto; gap: 12px; align-items: center; }
+
+input, select, textarea {
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    width: 100%;
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus { border-color: var(--red); }
+.range-group { display: flex; gap: 6px; }
+.vin-checkbox { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.vin-checkbox input { width: auto; accent-color: var(--green); }
+
+/* Каталог */
+.catalog-section { margin-top: 28px; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 12px; flex-wrap: wrap; }
+.btn-text { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 13px; }
+
+.cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 18px; }
+
+.car-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: 0.2s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-card:hover { transform: translateY(-3px); border-color: var(--red); }
+.car-img-wrap { position: relative; height: 170px; background: #1f1f26; }
+.car-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+.badge-vin {
+    position: absolute; top: 10px; left: 10px;
+    background: rgba(22, 163, 74, 0.92); color: #fff;
+    font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 6px;
+}
+
+.badge-novin {
+    position: absolute; top: 10px; left: 10px;
+    background: rgba(39, 39, 48, 0.88); color: var(--text-muted);
+    font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 6px;
+}
+
+.fav-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(0, 0, 0, 0.65); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 5px 9px; border-radius: 8px;
+    font-size: 11px; font-weight: 700; cursor: pointer;
+}
+
+.fav-btn.active {
+    background: var(--red);
+    border-color: var(--red);
+}
+
+.car-body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+.car-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.car-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+.car-price-row { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; }
+.price-main { font-size: 19px; font-weight: 800; color: #fff; }
+.price-conversions { font-size: 10px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+
+.open-badge {
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: var(--bg-input);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* Нижняя навигационная панель */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(14, 14, 18, 0.96);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--border-color);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    padding: 8px 10px;
+    z-index: 150;
+}
+
+.bottom-nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bottom-nav-btn.active,
+.bottom-nav-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.bottom-nav-sell {
+    background: var(--red);
+    color: #fff;
+}
+
+.bottom-nav-sell:hover {
+    background: var(--red-hover);
+}
+
+/* Модальные окна */
+.modal-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.82); backdrop-filter: blur(4px);
+    z-index: 200; align-items: center; justify-content: center; padding: 16px;
+}
+
+.modal-backdrop.open { display: flex; }
+
+.modal {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 16px; width: 100%; max-width: 640px;
+    padding: 22px; max-height: 92vh; overflow-y: auto;
+}
+
+.modal-wide { max-width: 840px; }
+
+.modal-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);
+}
+
+.step-indicator { margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--red); }
+
+.close-btn {
+    background: var(--bg-input); border: 1px solid var(--border-color);
+    color: #fff; width: 32px; height: 32px; border-radius: 8px; font-weight: 700; cursor: pointer;
+}
+
+.wizard-step { display: none; }
+.wizard-step.active { display: block; }
+
+.field-label { display: block; font-size: 13px; color: #e5e7eb; margin-bottom: 10px; font-weight: 700; }
+.sub-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
+
+.choice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.choice-grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+.choice-card {
+    background: var(--bg-input); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 16px; cursor: pointer;
+    display: flex; flex-direction: column; gap: 6px;
+}
+
+.choice-card input { display: none; }
+.choice-card:has(input:checked) { border-color: var(--red); background: rgba(229, 25, 38, 0.14); }
+.choice-title { font-size: 14px; font-weight: 700; color: #fff; }
+.choice-desc { font-size: 12px; color: var(--text-muted); line-height: 1.35; }
+
+.block-box { background: #101014; border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; margin-bottom: 14px; }
+.inline-radios { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+
+.radio-pill {
+    background: var(--bg-input); border: 1px solid var(--border-color);
+    padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; gap: 6px; cursor: pointer;
+}
+.radio-pill input { width: auto; }
+.radio-pill:has(input:checked) { border-color: var(--red); background: rgba(229, 25, 38, 0.14); }
+
+.vin-input-row { display: flex; gap: 8px; margin-bottom: 6px; }
+.vin-input-row button { white-space: nowrap; }
+.hint-text { font-size: 11px; color: #4ade80; }
+
+.brand-search-bar { display: grid; grid-template-columns: 1fr 220px; gap: 8px; margin-bottom: 10px; }
+.alpha-bar { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.alpha-btn {
+    background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-muted);
+    padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;
+}
+.alpha-btn.active, .alpha-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+.brand-directory {
+    max-height: 170px; overflow-y: auto; background: var(--bg-input);
+    border: 1px solid var(--border-color); border-radius: 10px; padding: 10px;
+}
+.brand-group { margin-bottom: 10px; }
+.brand-letter-heading {
+    font-size: 12px; font-weight: 800; color: var(--red);
+    margin-bottom: 5px; border-bottom: 1px solid var(--border-color); padding-bottom: 2px;
+}
+.brand-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.brand-chip {
+    background: #141418; border: 1px solid var(--border-color); color: #fff;
+    padding: 5px 10px; border-radius: 7px; font-size: 12px; cursor: pointer;
+}
+.brand-chip.selected, .brand-chip:hover { border-color: var(--red); background: rgba(229, 25, 38, 0.2); }
+
+.form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 14px; }
+.form-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.full-col { grid-column: 1 / -1; }
+.comfort-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+.check-pill {
+    background: var(--bg-input); border: 1px solid var(--border-color);
+    padding: 8px 10px; border-radius: 8px; font-size: 12px;
+    display: flex; align-items: center; gap: 8px; cursor: pointer;
+}
+.check-pill input { width: auto; accent-color: var(--red); }
+
+.photo-preview-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.photo-thumb { width: 78px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); }
+
+.modal-footer {
+    display: flex; justify-content: flex-end; gap: 10px;
+    margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+    .sidebar { position: fixed; left: -270px; top: 0; height: 100vh; transition: left 0.25s ease; }
+    .sidebar.open { left: 0; }
+    .mobile-menu-btn { display: inline-block; }
+    .main-content { padding: 0 14px 32px; }
+    .filter-controls, .search-row, .choice-grid, .choice-grid-2, .form-grid, .form-grid-3, .comfort-grid, .brand-search-bar {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .hero { padding: 22px; min-height: 220px; }
+    .hero-title { font-size: 36px; }
+    .hero-subtitle { font-size: 17px; }
+    .top-links { display: none; }
+    .cars-grid { grid-template-columns: 1fr; }
+    .intro-logo-text { font-size: 42px; }
+    .bottom-nav-btn { font-size: 10px; padding: 8px 2px; }
+}

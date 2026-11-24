@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GARAJ — Ավտոմեքենաների վաճառք Հայաստանում</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Нижняя навигационная панель строго только на мобильных устройствах */
+        @media screen and (min-width: 769px) {
+            nav#bottom-nav,
+            .bottom-nav,
+            #bottom-nav {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+                height: 0 !important;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            nav#bottom-nav,
+            .bottom-nav,
+            #bottom-nav {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 950 !important;
+            }
+            body main.main-content {
+                padding-bottom: 84px !important;
+            }
+        }
+
+        /* Светлая тема */
+        body.light-theme {
+            background-color: #f4f5f7 !important;
+            color: #111827 !important;
+        }
+
+        body.light-theme .sidebar,
+        body.light-theme .topbar,
+        body.light-theme .filters-box,
+        body.light-theme .vin-checker-card,
+        body.light-theme .car-card,
+        body.light-theme .modal,
+        body.light-theme .block-box,
+        body.light-theme section#faq.garaj-faq-box,
+        body.light-theme .club-card,
+        body.light-theme .bottom-nav,
+        body.light-theme .lang-menu,
+        body.light-theme .admin-stat-box,
+        body.light-theme .choice-card {
+            background-color: #ffffff !important;
+            color: #111827 !important;
+            border-color: #e5e7eb !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        body.light-theme .nav-item,
+        body.light-theme .top-links a,
+        body.light-theme button.garaj-faq-btn,
+        body.light-theme .car-title,
+        body.light-theme .price-main,
+        body.light-theme .choice-title,
+        body.light-theme .logo-text,
+        body.light-theme h1,
+        body.light-theme h2,
+        body.light-theme h3,
+        body.light-theme h4 {
+            color: #111827 !important;
+        }
+
+        body.light-theme .hero-title,
+        body.light-theme .hero-subtitle {
+            color: #ffffff !important;
+        }
+
+        body.light-theme .nav-item.active,
+        body.light-theme .nav-item:hover {
+            background-color: #fee2e2 !important;
+            color: #b91c1c !important;
+        }
+
+        body.light-theme .car-meta,
+        body.light-theme .price-conversions,
+        body.light-theme .step-indicator,
+        body.light-theme .garaj-faq-body,
+        body.light-theme .choice-desc,
+        body.light-theme .sub-label {
+            color: #4b5563 !important;
+        }
+
+        body.light-theme input,
+        body.light-theme select,
+        body.light-theme textarea {
+            background-color: #f9fafb !important;
+            color: #111827 !important;
+            border: 1px solid #d1d5db !important;
+        }
+
+        body.light-theme .btn-outline,
+        body.light-theme .lang-switch,
+        body.light-theme .alpha-btn,
+        body.light-theme .brand-chip,
+        body.light-theme .check-pill,
+        body.light-theme .radio-pill {
+            background-color: #f3f4f6 !important;
+            color: #111827 !important;
+            border-color: #d1d5db !important;
+        }
+
+        body.light-theme .garaj-faq-item,
+        body.light-theme .garaj-empty-state {
+            background-color: #f9fafb !important;
+            border-color: #e5e7eb !important;
+            color: #374151 !important;
+        }
+
+        /* Карточка VIN-проверки и калькулятора */
+        .vin-checker-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 16px;
+            padding: 18px;
+            margin: 16px 0;
+        }
+
+        /* FAQ Аккордеон */
+        section#faq.garaj-faq-box {
+            margin-top: 28px !important;
+            padding: 20px !important;
+            border-radius: 16px !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.09) !important;
+        }
+
+        section#faq.garaj-faq-box h2 {
+            margin: 0 0 14px 0 !important;
+            font-size: 18px !important;
+            font-weight: 800 !important;
+        }
+
+        .garaj-faq-item {
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-radius: 12px !important;
+            margin-bottom: 10px !important;
+            overflow: hidden !important;
+        }
+
+        button.garaj-faq-btn {
+            width: 100% !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 14px 16px !important;
+            background: transparent !important;
+            border: none !important;
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            text-align: left !important;
+            cursor: pointer !important;
+            color: #ffffff !important;
+        }
+
+        .garaj-faq-plus {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 24px !important;
+            height: 24px !important;
+            border-radius: 8px !important;
+            background: rgba(229, 25, 38, 0.18) !important;
+            color: #ff4d58 !important;
+            font-size: 16px !important;
+            font-weight: 800 !important;
+            flex-shrink: 0 !important;
+            transition: transform 0.2s ease !important;
+        }
+
+        .garaj-faq-item.is-open .garaj-faq-plus {
+            transform: rotate(45deg) !important;
+        }
+
+        .garaj-faq-body {
+            display: none !important;
+            padding: 0 16px 14px 16px !important;
+            font-size: 13px !important;
+            line-height: 1.65 !important;
+            color: #d1d5db !important;
+        }
+
+        .garaj-faq-item.is-open .garaj-faq-body {
+            display: block !important;
+        }
+
+        /* Пустой каталог */
+        .garaj-empty-state {
+            grid-column: 1 / -1 !important;
+            padding: 36px 20px !important;
+            text-align: center !important;
+            border-radius: 14px !important;
+            border: 1px dashed rgba(255, 255, 255, 0.16) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            color: #9ca3af !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+        }
+
+        /* Кнопки звонка, WhatsApp и админка */
+        .call-actions-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .btn-call {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #16a34a;
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #0d9488;
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .admin-stat-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .vip-badge {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: #eab308;
+            color: #111827;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+<div id="intro-overlay" class="intro-overlay" onclick="skipIntro()">
+    <div class="smoke-layer"></div>
+    <div class="intro-car-track">
+        <div class="intro-porsche-wrap">
+            <svg class="porsche-svg" viewBox="0 0 320 110" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="pBody" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#141418"/>
+                        <stop offset="55%" stop-color="#2c2c35"/>
+                        <stop offset="100%" stop-color="#e51926"/>
+                    </linearGradient>
+                    <linearGradient id="pGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#0b0b0d"/>
+                        <stop offset="100%" stop-color="#3a1218"/>
+                    </linearGradient>
+                </defs>
+                <ellipse cx="162" cy="96" rx="135" ry="7" fill="rgba(0,0,0,0.65)"/>
+                <path d="M28 52 L54 46 L60 54 L30 57 Z" fill="#e51926"/>
+                <path d="M24 74 C24 62, 34 54, 52 50 C82 32, 125 22, 168 23 C202 24, 228 40, 250 48 C278 52, 298 60, 302 72 C304 78, 298 84, 286 84 L38 84 C27 84, 24 80, 24 74 Z" fill="url(#pBody)" stroke="#e51926" stroke-width="1.8"/>
+                <path d="M92 46 C118 30, 152 27, 174 28 C196 29, 214 39, 228 47 Z" fill="url(#pGlass)" stroke="#6b7280" stroke-width="1"/>
+                <line x1="158" y1="28" x2="152" y2="47" stroke="#272730" stroke-width="2.5"/>
+                <ellipse cx="286" cy="59" rx="9" ry="5" transform="rotate(14 286 59)" fill="#ffffff"/>
+                <path d="M294 59 L320 52 L320 68 Z" fill="rgba(255,255,255,0.22)"/>
+                <rect x="25" y="61" width="18" height="4" rx="2" fill="#ff2432"/>
+                <g class="p-wheel-rear">
+                    <circle cx="80" cy="82" r="19" fill="#09090b" stroke="#d1d5db" stroke-width="3"/>
+                    <circle cx="80" cy="82" r="9" fill="#1f1f26" stroke="#e51926" stroke-width="2"/>
+                </g>
+                <g class="p-wheel-front">
+                    <circle cx="244" cy="82" r="19" fill="#09090b" stroke="#d1d5db" stroke-width="3"/>
+                    <circle cx="244" cy="82" r="9" fill="#1f1f26" stroke="#e51926" stroke-width="2"/>
+                </g>
+            </svg>
+        </div>
+    </div>
+    <div class="intro-brand-box">
+        <div class="intro-logo-text">GARAJ</div>
+        <div class="intro-sub">PORSCHE 911 EDITION • ARMENIA</div>
+        <button type="button" class="intro-skip-btn" onclick="skipIntro()">Բաց թողնել</button>
+    </div>
+</div>
+
+<div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+        <a href="#top" class="logo" onclick="goHome(event)">
+            <span class="logo-icon">G</span>
+            <span class="logo-text">GARAJ</span>
+        </a>
+
+        <nav class="side-nav">
+            <a href="#top" class="nav-item active" data-i18n="nav_home" onclick="goHome(event)">Գլխավոր</a>
+            <a href="#vin-checker" class="nav-item" data-i18n="nav_vin_check" onclick="document.getElementById('sidebar').classList.remove('open')">VIN Ստուգում</a>
+            <a href="#customs-calc-box" class="nav-item" onclick="document.getElementById('sidebar').classList.remove('open')">Մաքսազերծման հաշվիչ</a>
+            <a href="#catalog" class="nav-item" data-i18n="nav_vin" onclick="filterOnlyVin(true); return false;">Միայն VIN-ով</a>
+            <a href="#" class="nav-item" onclick="openFavoritesModal(); return false;"><span data-i18n="nav_fav">Նշվածները</span> (<span id="fav-count">0</span>)</a>
+            <a href="#" class="nav-item" onclick="openMessagesModal(); return false;">Հաղորդագրություն</a>
+            <a href="#faq" class="nav-item" onclick="document.getElementById('sidebar').classList.remove('open')">Հաճախ տրվող հարցեր</a>
+            <a href="#" class="nav-item" onclick="openSupportModal(); return false;">Սպասարկում</a>
+            <a href="#" class="nav-item" onclick="openRulesModal(); return false;">Կայքի կանոններ</a>
+            <a href="#" class="nav-item admin-only" id="sidebar-moderation-link" style="display: none;" onclick="openModerationModal(); return false;">Ադմին Պանել (<span id="pending-count-side">0</span>)</a>
+            <a href="#" class="nav-item" id="sidebar-settings-link" style="display: none;" data-i18n="nav_settings" onclick="openAccountModal(); return false;">Հաշվի կարգավորումներ</a>
+        </nav>
+
+        <div class="club-card">
+            <h4>GARAJ CLUB</h4>
+            <p data-i18n="club_desc">Միացիր մեր ավտո հավաքին և ստացիր առավելություններ</p>
+            <button type="button" class="btn-outline" data-i18n="btn_more" onclick="handleAddClick()">Ավելին</button>
+        </div>
+
+        <div class="sidebar-footer">
+            <p>© 2026 GARAJ. <a href="#" onclick="openRulesModal(); return false;" style="color:#9ca3af;">Կանոններ</a></p>
+        </div>
+    </aside>
+
+    <main class="main-content" id="top">
+        <header class="topbar">
+            <div class="top-left">
+                <button type="button" class="mobile-menu-btn" onclick="toggleMobileMenu()">Մենյու</button>
+                <div class="top-links">
+                    <a href="#top" class="active" data-i18n="nav_home" onclick="goHome(event)">Գլխավոր</a>
+                    <a href="#catalog" data-i18n="nav_listings">Հայտարարություններ</a>
+                    <a href="#vin-checker" data-i18n="nav_vin_check">VIN Ստուգում</a>
+                    <a href="#customs-calc-box">Մաքսազերծում</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#" onclick="openRulesModal(); return false;">Կանոններ</a>
+                </div>
+            </div>
+
+            <div class="top-actions">
+                <button type="button" class="btn-outline admin-only" id="moderation-btn" style="display: none; border-color: #e51926;" onclick="openModerationModal()">Ադմին Պանել (<span id="pending-count-top">0</span>)</button>
+                <button type="button" class="btn-primary" id="add-listing-btn" style="display: none;" data-i18n="btn_add" onclick="openAddModal()">+ Հայտարարություն</button>
+                <button type="button" class="btn-outline" id="settings-btn" style="display: none;" data-i18n="btn_settings" onclick="openAccountModal()">Կարգավորումներ</button>
+
+                <div class="lang-dropdown-wrap">
+                    <button type="button" class="lang-switch" id="lang-btn" onclick="toggleLangMenu()">HY</button>
+                    <div class="lang-menu" id="lang-menu">
+                        <button type="button" onclick="setLanguage('hy')">Հայերեն (HY)</button>
+                        <button type="button" onclick="setLanguage('ru')">Русский (RU)</button>
+                        <button type="button" onclick="setLanguage('en')">English (EN)</button>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-login" id="auth-btn" onclick="openGoogleAuthModal()">Google Մուտք</button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-overlay">
+                <h1 class="hero-title">GARAJ</h1>
+                <p class="hero-subtitle" data-i18n="hero_sub">Քո մեքենան. Քո կանոնները։</p>
+                <a href="#catalog" class="btn-hero" data-i18n="hero_btn">Դիտել հայտարարությունները</a>
+            </div>
+        </section>
+
+        <!-- Проверка VIN-кода -->
+        <section class="vin-checker-card" id="vin-checker">
+            <div style="margin-bottom:10px;">
+                <h3 style="font-size:16px;margin:0;">Անվճար VIN-կոդի և ԱՄՆ աճուրդների ստուգում</h3>
+                <div style="font-size:12px;color:#9ca3af;">Մուտքագրեք 17-նիշ VIN-կոդը՝ գործարանային տվյալները, Carfax-ը և աճուրդային լուսանկարները տեսնելու համար</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <input type="text" id="public-vin-input" maxlength="17" placeholder="Օրինակ՝ W1KZF8DB5LA784512" style="flex:1;min-width:220px;text-transform:uppercase;">
+                <button type="button" class="btn-primary" onclick="checkPublicVin()">Ստուգել VIN-ը</button>
+            </div>
+            <div id="public-vin-result" style="margin-top:12px;font-size:13px;"></div>
+        </section>
+
+        <!-- Калькулятор растаможки и переоформления в Армении -->
+        <details class="vin-checker-card" id="customs-calc-box">
+            <summary style="cursor:pointer;font-size:15px;font-weight:800;">
+                Մաքսազերծման և վերաձևակերպման հաշվիչ (Հայաստան • AMD / USD)
+            </summary>
+            <div style="margin-top:14px;">
+                <div class="form-grid-3">
+                    <div>
+                        <label class="sub-label">Ավտոմեքենայի գինը աճուրդում ($)</label>
+                        <input type="number" id="calc-car-usd" value="10000" min="500" oninput="calculateArmeniaCustoms()">
+                    </div>
+                    <div>
+                        <label class="sub-label">Տարեթիվը</label>
+                        <select id="calc-car-age" onchange="calculateArmeniaCustoms()">
+                            <option value="new">Մինչև 3 տարեկան (2024–2026)</option>
+                            <option value="mid" selected>3-ից 7 տարեկան (2019–2023)</option>
+                            <option value="old">7 տարեկանից բարձր (մինչև 2018)</option>
+                            <option value="ev">Էլեկտրոմոբիլ (0% մաքսատուրք)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="sub-label">Շարժիչի ծավալը (սմ³)</label>
+                        <input type="number" id="calc-engine-cc" value="2000" min="0" step="100" oninput="calculateArmeniaCustoms()">
+                    </div>
+                </div>
+                <div id="calc-customs-result" class="block-box" style="margin-top:12px;font-size:13px;"></div>
+            </div>
+        </details>
+
+        <!-- Фильтры -->
+        <section class="filters-box">
+            <div class="search-row">
+                <input type="text" id="search-input" placeholder="Որոնել ըստ մոդելի, օրինակ՝ BMW X5..." oninput="applyFilters()">
+                <select id="city-filter" onchange="applyFilters()">
+                    <option value="">Բոլոր մարզերը</option>
+                    <option value="Երևան">Երևան</option>
+                    <option value="Արարատ">Արարատ</option>
+                    <option value="Արմավիր">Արմավիր</option>
+                    <option value="Արագածոտն">Արագածոտն</option>
+                    <option value="Կոտայք">Կոտայք</option>
+                    <option value="Գեղարքունիք">Գեղարքունիք</option>
+                    <option value="Լոռի">Լոռի</option>
+                    <option value="Շիրակ">Շիրակ</option>
+                    <option value="Սյունիք">Սյունիք</option>
+                    <option value="Տավուշ">Տավուշ</option>
+                    <option value="Վայոց ձոր">Վայոց ձոր</option>
+                </select>
+            </div>
+
+            <div class="filter-controls">
+                <select id="brand-filter" onchange="applyFilters()">
+                    <option value="">Մակնիշ</option>
+                </select>
+
+                <div class="range-group">
+                    <input type="number" id="price-min" placeholder="Գին սկսած ($)" oninput="applyFilters()">
+                    <input type="number" id="price-max" placeholder="Մինչև ($)" oninput="applyFilters()">
+                </div>
+
+                <div class="range-group">
+                    <input type="number" id="year-min" placeholder="Տարի սկսած" oninput="applyFilters()">
+                    <input type="number" id="year-max" placeholder="Մինչև" oninput="applyFilters()">
+                </div>
+
+                <label class="vin-checkbox">
+                    <input type="checkbox" id="vin-only-check" onchange="applyFilters()">
+                    <span data-i18n="filter_vin">Միայն VIN</span>
+                </label>
+
+                <label class="vin-checkbox">
+                    <input type="checkbox" id="customs-only-check" onchange="applyFilters()">
+                    <span>Մաքսազերծված</span>
+                </label>
+
+                <label class="vin-checkbox">
+                    <input type="checkbox" id="undamaged-only-check" onchange="applyFilters()">
+                    <span>Չվթարված</span>
+                </label>
+
+                <button type="button" class="btn-primary" data-i18n="btn_search" onclick="applyFilters()">Որոնել</button>
+            </div>
+        </section>
+
+        <!-- Каталог -->
+        <section class="catalog-section" id="catalog">
+            <div class="section-header">
+                <h2><span data-i18n="new_listings">Նոր հայտարարություններ</span> (<span id="cars-count">0</span>)</h2>
+                <button type="button" class="btn-text" data-i18n="btn_reset" onclick="resetFilters()">Մաքրել ֆիլտրերը</button>
+            </div>
+
+            <div class="cars-grid" id="cars-grid"></div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="garaj-faq-box" id="faq">
+            <h2>Հաճախ տրվող հարցեր (FAQ)</h2>
+            <div id="faq-list"></div>
+        </section>
+    </main>
+</div>
+
+<!-- Нижняя навигационная панель (видна только на телефоне) -->
+<nav class="bottom-nav" id="bottom-nav">
+    <button type="button" class="bottom-nav-btn active" onclick="goHome(event)">Գլխավոր</button>
+    <button type="button" class="bottom-nav-btn" onclick="openFavoritesModal()">Նշվածներ (<span id="fav-count-bottom">0</span>)</button>
+    <button type="button" class="bottom-nav-btn bottom-nav-sell" onclick="handleAddClick()">Վաճառել</button>
+    <button type="button" class="bottom-nav-btn" onclick="openMessagesModal()">Հաղորդագրություն</button>
+    <button type="button" class="bottom-nav-btn" onclick="openSupportModal()">Սպասարկում</button>
+</nav>
+
+<!-- Избранное -->
+<div class="modal-backdrop" id="favorites-modal">
+    <div class="modal modal-wide">
+        <div class="modal-header">
+            <div>
+                <h3>Նշված հայտարարություններ</h3>
+                <div class="step-indicator">Ձեր պահպանված մեքենաները</div>
+            </div>
+            <button type="button" class="close-btn" onclick="closeFavoritesModal()">X</button>
+        </div>
+        <div id="favorites-list" class="cars-grid"></div>
+    </div>
+</div>
+
+<!-- Сообщения -->
+<div class="modal-backdrop" id="messages-modal">
+    <div class="modal modal-wide">
+        <div class="modal-header">
+            <div>
+                <h3>Հաղորդագրություններ</h3>
+                <div class="step-indicator">Գնորդների և վաճառողների նամակագրություն</div>
+            </div>
+            <button type="button" class="close-btn" onclick="closeMessagesModal()">X</button>
+        </div>
+        <div id="messages-list"></div>
+    </div>
+</div>
+
+<!-- Служба поддержки -->
+<div class="modal-backdrop" id="support-modal">
+    <div class="modal" style="max-width: 520px;">
+        <div class="modal-header">
+            <div>
+                <h3>Սպասարկում (Աջակցություն)</h3>
+                <div class="step-indicator">GARAJ Հաճախորդների սպասարկում</div>
+            </div>
+            <button type="button" class="close-btn" onclick="closeSupportModal()">X</button>
+        </div>
+        <form onsubmit="handleSupportSubmit(event)">
+            <div class="block-box">
+                <label class="sub-label">Ձեր հաղորդագրությունը *</label>
+                <textarea id="support-message-text" rows="3" placeholder="Գրեք ձեր հարցը կամ առաջարկը..." required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" onclick="closeSupportModal()">Փակել</button>
+                <button type="submit" class="btn-primary">Ուղարկել</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Правила сайта -->
+<div class="modal-backdrop" id="rules-modal">
+    <div class="modal" style="max-width: 600px;">
+        <div class="modal-header">
+            <div>
+                <h3>GARAJ Կայքի օգտագործման կանոններ</h3>
+                <div class="step-indicator">Պարտադիր պայմաններ բոլոր օգտատերերի համար</div>
+            </div>
+            <button type="button" class="close-btn" onclick="closeRulesModal()">X</button>
+        </div>
+        <div class="block-box" style="font-size:12px;line-height:1.7;">
+            <p style="margin-bottom:8px;">1. Հայտարարություն տեղադրելիս տրամադրեք իրական և ստույգ տվյալներ մեքենայի վիճակի, վազքի և գնի մասին։</p>
+            <p style="margin-bottom:8px;">2. Նկարները պետք է պատկանեն վաճառվող տրանսպորտային միջոցին և չպարունակեն կողմնակի գովազդ կամ 18+ բովանդակություն։</p>
+            <p style="margin-bottom:8px;">3. Արգելվում են կեղծ հայտարարությունները, սպամը և վիրավորական հաղորդագրությունները ցանկացած լեզվով։</p>
+            <p style="margin-bottom:8px;">4. Բոլոր հայտարարություններն անցնում են մոդերացիա. ադմինիստրացիան իրավունք ունի հրապարակել, մերժել, ջնջել հայտարարությունը կամ արգելափակել օգտատիրոջը։</p>
+            <p>5. Գրանցվելով և օգտվելով կայքից՝ դուք տալիս եք ձեր համաձայնությունը կայքի կանոններին։</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-primary" onclick="closeRulesModal()">Հասկանալի է</button>
+        </div>
+    </div>
+</div>
+
+<!-- Админ-Панель -->
+<div class="modal-backdrop" id="moderation-modal">
+    <div class="modal modal-wide">
+        <div class="modal-header">
+            <div>
+                <h3>Ադմինիստրատորի Կառավարման Պանել</h3>
+                <div class="step-indicator">Վիճակագրություն, հայտարարությունների մոդերացիա, օգտատերերի արգելափակում և բողոքներ</div>
+            </div>
+            <button type="button" class="close-btn" onclick="closeModerationModal()">X</button>
+        </div>
+
+        <div class="admin-stats-grid" id="admin-stats-grid"></div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+            <button type="button" class="btn-primary" id="tab-btn-cars" onclick="switchAdminTab('cars')">Հայտարարություններ</button>
+            <button type="button" class="btn-outline" id="tab-btn-users" onclick="switchAdminTab('users')">Օգտատերեր (Բան / Ապաբան)</button>
+            <button type="button" class="btn-outline" id="tab-btn-reports" onclick="switchAdminTab('reports')">Բողոքներ և Լոգեր</button>
+        </div>
+
+        <div id="admin-tab-cars">
+            <h4 style="margin-bottom:10px;font-size:14px;">Սպասող հայտարարություններ (Pending)</h4>
+            <div id="moderation-pending-list"></div>
+
+            <h4 style="margin:18px 0 10px;font-size:14px;">Հրապարակված հայտարարություններ (VIP, Ջնջում)</h4>
+            <div id="moderation-active-list"></div>
+        </div>
+
+        <div id="admin-tab-users" style="display:none;">
+            <div style="margin-bottom:10px;">
+                <input type="text" id="admin-user-search" placeholder="Որոնել օգտատեր ըստ անվան, Email-ի կամ հեռախոսի..." oninput="renderAdminUsersList()">
+            </div>
+            <div id="admin-users-list"></div>
+        </div>
+
+        <div id="admin-tab-reports" style="display:none;">
+            <h4 style="margin-bottom:10px;font-size:14px;">Ստացված բողոքներ</h4>
+            <div id="admin-reports-list"></div>
+            <h4 style="margin:18px 0 10px;font-size:14px;">Ադմինի գործողությունների պատմություն (Audit Log)</h4>
+            <div id="admin-logs-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Вход через Google -->
+<div class="modal-backdrop" id="google-auth-modal">
+    <div class="modal" style="max-width: 480px;">
+        <div class="modal-header">
+            <div>
+                <h3>Google Մուտք և Գրանցում</h3>
+                <div class="step-indicator">Հեռախոսահամարը և կանոնների համաձայնությունը պարտադիր են</div>
+            </div>
+            <button type="button" class="close-btn" onclick="closeGoogleAuthModal()">X</button>
+        </div>
+
+        <form id="google-auth-form" onsubmit="handleGoogleAuthSubmit(event)">
+            <div class="block-box">
+                <label class="sub-label">Google Հաշիվ (Email) *</label>
+                <input type="email" id="google-email" placeholder="example@gmail.com" required>
+            </div>
+
+            <div class="block-box">
+                <label class="sub-label">Անուն Ազգանուն *</label>
+                <input type="text" id="google-name" placeholder="Օրինակ՝ Տիգրան Թարանյան" required>
+            </div>
+
+            <div class="block-box">
+                <label class="sub-label">Հեռախոսահամար (Պարտադիր) *</label>
+                <input type="tel" id="google-phone" placeholder="+374 99 123456" required>
+            </div>
+
+            <div class="block-box">
+                <label class="check-pill" style="background:transparent;border:none;padding:0;">
+                    <input type="checkbox" id="google-rules-agree" required>
+                    <span>Ես կարդացել եմ և համաձայն եմ <a href="#" onclick="openRulesModal(); return false;" style="color:#e51926;text-decoration:underline;">կայքի կանոններին</a> *</span>
+                </label>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" onclick="closeGoogleAuthModal()">Փակել</button>
+                <button type="submit" class="btn-primary">Համաձայնել և մուտք գործել</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Настройки профиля (Тёмная/светлая тема + данные + входящие предложения цены + мои объявления) -->
+<div class="modal-backdrop" id="account-modal">
+    <div class="modal modal-wide" style="max-width: 720px;">
+        <div class="modal-header">
+            <div>
+                <h3>Հաշվի կարգավորումներ</h3>
+                <div class="step-indicator" id="account-email-label"></div>
+            </div>
+            <button type="button" class="close-btn" onclick="closeAccountModal()">X</button>
+        </div>
+
+        <div class="block-box">
+            <label class="sub-label">Կայքի տեսքը (Թեմա)</label>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+                <button type="button" class="btn-primary" id="theme-dark-btn" onclick="setSiteTheme('dark')">Մուգ ռեժիմ (Սև)</button>
+                <button type="button" class="btn-outline" id="theme-light-btn" onclick="setSiteTheme('light')">Լուսավոր ռեժիմ (Սպիտակ)</button>
+            </div>
+        </div>
+
+        <form id="account-settings-form" onsubmit="handleSaveAccount(event)">
+            <div class="form-grid">
+                <div class="block-box">
+                    <label class="sub-label">Անուն Ազգանուն *</label>
+                    <input type="text" id="acc-name" required>
+                </div>
+
+                <div class="block-box">
+                    <label class="sub-label">Հեռախոսահամար (Պարտադիր) *</label>
+                    <input type="tel" id="acc-phone" required>
+                </div>
+
+                <div class="block-box">
+                    <label class="sub-label">WhatsApp համար</label>
+                    <input type="text" id="acc-whatsapp" placeholder="+374 ...">
+                </div>
+
+                <div class="block-box">
+                    <label class="sub-label">Կարգավիճակ</label>
+                    <select id="acc-seller-type">
+                        <option value="Անհատ">Անհատ</option>
+                        <option value="Խանութ / Ավտոսրահ">Խանութ / Ավտոսրահ</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-outline" onclick="logoutAccount()">Դուրս գալ հաշվից</button>
+                <button type="submit" class="btn-primary">Պահպանել</button>
+            </div>
+        </form>
+
+        <div style="margin-top:18px;border-top:1px solid rgba(156,163,175,0.2);padding-top:14px;">
+            <h4 style="font-size:14px;margin-bottom:10px;">Գնային առաջարկներ իմ մեքենաների համար</h4>
+            <div id="incoming-offers-list" style="margin-bottom:16px;"></div>
+
+            <h4 style="font-size:14px;margin-bottom:10px;">Իմ հայտարարությունները</h4>
+            <div id="my-cars-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Добавление объявления -->
+<div class="modal-backdrop" id="add-modal">
+    <div class="modal modal-wide">
+        <div class="modal-header">
+            <div>
+                <h3><span data-i18n="modal_add_title">Ավելացնել հայտարարություն</span></h3>
+                <div class="step-indicator" id="step-indicator">Քայլ 1 / 4</div>
+            </div>
+            <button type="button" class="close-btn" onclick="closeAddModal()">X</button>
+        </div>
+
+        <form id="add-car-form" onsubmit="handleAddCar(event)">
+            <div class="wizard-step active" data-step="1">
+                <label class="field-label">Ընտրեք տրանսպորտային միջոցի տեսակը</label>
+                <div class="choice-grid">
+                    <label class="choice-card"><input type="radio" name="vehicle_type" value="Մեքենա" checked><span class="choice-title">Մեքենա</span><span class="choice-desc">Մարդատար, ամենագնաց, կուպե</span></label>
+                    <label class="choice-card"><input type="radio" name="vehicle_type" value="Հեծանիվ"><span class="choice-title">Հեծանիվ</span><span class="choice-desc">Քաղաքային, լեռնային, էլեկտրական</span></label>
+                    <label class="choice-card"><input type="radio" name="vehicle_type" value="Մոտոցիկլ"><span class="choice-title">Մոտոցիկլ</span><span class="choice-desc">Սպորտային, կրուիզեր, սկուտեր</span></label>
+                    <label class="choice-card"><input type="radio" name="vehicle_type" value="Բեռնատար"><span class="choice-title">Բեռնատար</span><span class="choice-desc">Կոմերցիոն տրանսպորտ</span></label>
+                    <label class="choice-card"><input type="radio" name="vehicle_type" value="Ջրային տրանսպորտ"><span class="choice-title">Ջրային տրանսպորտ</span><span class="choice-desc">Նավակներ, կատերներ</span></label>
+                    <label class="choice-card"><input type="radio" name="vehicle_type" value="Օդային տրանսպորտ"><span class="choice-title">Օդային տրանսպորտ</span><span class="choice-desc">Ուղղաթիռներ, թեթև օդանավեր</span></label>
+                </div>
+            </div>
+
+            <div class="wizard-step" data-step="2">
+                <label class="field-label">Ընտրեք մեքենայի կատեգորիան</label>
+                <div class="choice-grid choice-grid-2">
+                    <label class="choice-card"><input type="radio" name="car_category" value="Մարդատար ավտոմեքենաներ" checked><span class="choice-title">Մարդատար ավտոմեքենաներ</span><span class="choice-desc">Ամենօրյա երթևեկության մեքենաներ</span></label>
+                    <label class="choice-card"><input type="radio" name="car_category" value="Վթարված մեքենաներ որպես պահեստամաս"><span class="choice-title">Վթարված մեքենաներ որպես պահեստամաս</span><span class="choice-desc">Ապամոնտաժման կամ վերականգնման համար</span></label>
+                    <label class="choice-card"><input type="radio" name="car_category" value="Ավտոմեքենաներ աճուրդից"><span class="choice-title">Ավտոմեքենաներ աճուրդից</span><span class="choice-desc">Copart, IAAI և այլ աճուրդային լոտեր</span></label>
+                    <label class="choice-card"><input type="radio" name="car_category" value="Ավտոմեքենաներ արտերկրից"><span class="choice-title">Ավտոմեքենաներ արտերկրից</span><span class="choice-desc">ԱՄՆ, Եվրոպա, ԱՄԷ, Կորեա, Չինաստան</span></label>
+                </div>
+            </div>
+
+            <div class="wizard-step" data-step="3">
+                <label class="field-label">Ընտրեք վիճակը ըստ վազքի</label>
+                <div class="choice-grid choice-grid-2">
+                    <label class="choice-card"><input type="radio" name="mileage_state" value="Վազքով մեքենաներ" checked><span class="choice-title">Վազքով մեքենաներ</span><span class="choice-desc">Օգտագործված ավտոմեքենաներ՝ ճշգրիտ վազքով</span></label>
+                    <label class="choice-card"><input type="radio" name="mileage_state" value="Նոր մեքենաներ"><span class="choice-title">Նոր մեքենաներ</span><span class="choice-desc">Սրահից կամ նվազագույն վազքով</span></label>
+                </div>
+            </div>
+
+            <div class="wizard-step" data-step="4">
+                <div class="block-box">
+                    <label class="field-label">Ո՞վ եք դուք</label>
+                    <div class="inline-radios">
+                        <label class="radio-pill"><input type="radio" name="seller_type" value="Անհատ" checked><span>Անհատ</span></label>
+                        <label class="radio-pill"><input type="radio" name="seller_type" value="Խանութ / Ավտոսրահ"><span>Խանութ / Ավտոսրահ</span></label>
+                    </div>
+                </div>
+
+                <div class="block-box">
+                    <label class="field-label">Գտնվելու վայրը</label>
+                    <div class="form-grid-3">
+                        <div>
+                            <label class="sub-label">Մարզ</label>
+                            <select id="region-select" onchange="updateCities()"></select>
+                        </div>
+                        <div>
+                            <label class="sub-label">Քաղաք / Վարչական շրջան</label>
+                            <select id="city-select" onchange="updateVillages()"><option value="">Նախ ընտրեք մարզը</option></select>
+                        </div>
+                        <div>
+                            <label class="sub-label">Գյուղ / Ավան</label>
+                            <select id="village-select"><option value="">Նախ ընտրեք քաղաքը</option></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block-box">
+                    <label class="field-label">VIN-կոդ (17 նիշ — VIN-ով հայտարարությունները ցուցադրվում են առաջինը)</label>
+                    <div class="inline-radios">
+                        <label class="radio-pill"><input type="radio" name="vin_status" value="provided" checked onchange="toggleVinInput()"><span>Նշել VIN-կոդը</span></label>
+                        <label class="radio-pill"><input type="radio" name="vin_status" value="hidden" onchange="toggleVinInput()"><span>Չնշել VIN-կոդը</span></label>
+                        <label class="radio-pill"><input type="radio" name="vin_status" value="none" onchange="toggleVinInput()"><span>VIN-կոդ չկա</span></label>
+                    </div>
+
+                    <div id="vin-input-wrapper" class="vin-input-row">
+                        <input type="text" id="vin-code" maxlength="17" placeholder="Մուտքագրեք 17 նիշ VIN-կոդը" style="text-transform: uppercase;">
+                        <button type="button" class="btn-secondary" onclick="decodeVin()">Ստուգել VIN</button>
+                    </div>
+                    <small id="vin-hint" class="hint-text">VIN նշելու դեպքում ավտոմատ կհասանելի դառնա Carfax և աճուրդների ստուգման հղումը։</small>
+                </div>
+
+                <div class="block-box">
+                    <label class="field-label">Մակնիշ (A-Z որոնում)</label>
+                    <div class="brand-search-bar">
+                        <input type="text" id="brand-search-input" placeholder="Որոնել մակնիշ..." oninput="renderBrandDirectory()">
+                        <input type="text" id="car-brand" placeholder="Ընտրված մակնիշը" readonly required>
+                    </div>
+                    <div class="alpha-bar" id="alpha-bar"></div>
+                    <div class="brand-directory" id="brand-directory"></div>
+                </div>
+
+                <div class="form-grid">
+                    <div>
+                        <label class="sub-label">Մոդել *</label>
+                        <input type="text" id="car-model" placeholder="Օրինակ՝ 911 Carrera, Camry" required>
+                    </div>
+                    <div>
+                        <label class="sub-label">Տարեթիվ *</label>
+                        <input type="number" id="car-year" min="1950" max="2026" value="2021" required>
+                    </div>
+                    <div>
+                        <label class="sub-label">Վազքը (կմ) *</label>
+                        <input type="number" id="car-mileage" min="0" step="1" placeholder="Օրինակ՝ 48520" required>
+                    </div>
+                    <div>
+                        <label class="sub-label">Վթարվածության կարգավիճակ</label>
+                        <select id="car-damage">
+                            <option value="Չվթարված">Չվթարված</option>
+                            <option value="Վթարված">Վթարված</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="sub-label">Գազ (Համակարգ)</label>
+                        <select id="car-gas">
+                            <option value="Գազ չկա">Գազ չկա</option>
+                            <option value="Գազ կա (Հեղուկ / Բնական)">Գազ կա (Հեղուկ / Բնական)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="sub-label">Ղեկը</label>
+                        <select id="car-steering">
+                            <option value="Ձախ">Ձախ</option>
+                            <option value="Աջ">Աջ</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="sub-label">Մաքսազերծված է՞</label>
+                        <select id="car-customs">
+                            <option value="Այո">Այո</option>
+                            <option value="Ոչ">Ոչ</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="sub-label">Մեքենայի գույնը</label>
+                        <select id="car-color">
+                            <option value="Սև">Սև</option>
+                            <option value="Սպիտակ">Սպիտակ</option>
+                            <option value="Արծաթագույն">Արծաթագույն</option>
+                            <option value="Մոխրագույն">Մոխրագույն</option>
+                            <option value="Կապույտ">Կապույտ</option>
+                            <option value="Կարմիր">Կարմիր</option>
+                            <option value="Կանաչ">Կանաչ</option>
+                            <option value="Շագանակագույն">Շագանակագույն</option>
+                        </select>
+                    </div>
+                </div>
+
+                <details class="block-box" style="margin-top:12px;">
+                    <summary style="cursor:pointer;font-weight:700;font-size:13px;">Ավելի շատ տվյալներ (սրահ, լյուկ, կոմֆորտ — ոչ պարտադիր)</summary>
+                    <div class="form-grid" style="margin-top:12px;">
+                        <div>
+                            <label class="sub-label">Անվադողերի չափսը</label>
+                            <select id="car-tire-size">
+                                <option value="205/55 R16">205/55 R16</option>
+                                <option value="225/50 R17" selected>225/50 R17</option>
+                                <option value="235/45 R18">235/45 R18</option>
+                                <option value="245/45 R19">245/45 R19</option>
+                                <option value="255/35 R20">255/35 R20</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="sub-label">Լուսարձակներ</label>
+                            <select id="car-headlights">
+                                <option value="LED լուսարձակներ">LED լուսարձակներ</option>
+                                <option value="Matrix LED / Laser">Matrix LED / Laser</option>
+                                <option value="Քսենոն (Xenon)">Քսենոն (Xenon)</option>
+                                <option value="Հալոգեն">Հալոգեն</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="sub-label">Սրահի գույնը</label>
+                            <select id="car-interior-color">
+                                <option value="Սև">Սև</option>
+                                <option value="Բեժ">Բեժ</option>
+                                <option value="Շագանակագույն">Շագանակագույն</option>
+                                <option value="Կարմիր">Կարմիր</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="sub-label">Սրահի տեսակը</label>
+                            <select id="car-interior-type">
+                                <option value="Կաշվե սրահ">Կաշվե սրահ</option>
+                                <option value="Ալկանտարա / Թավշյա">Ալկանտարա / Թավշյա</option>
+                                <option value="Համակցված (Կաշի + Կտոր)">Համակցված (Կաշի + Կտոր)</option>
+                                <option value="Կտորե սրահ">Կտորե սրահ</option>
+                            </select>
+                        </div>
+                        <div class="full-col">
+                            <label class="sub-label">Լյուկ</label>
+                            <select id="car-sunroof">
+                                <option value="Լյուկ չկա">Լյուկ չկա</option>
+                                <option value="Համայնապատկերային լյուկ (Panorama)">Համայնապատկերային լյուկ (Panorama)</option>
+                                <option value="Ստանդարտ ապակե լյուկ">Ստանդարտ ապակե լյուկ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:10px;">
+                        <label class="field-label">Հարմարավետություն (Կոմֆորտ)</label>
+                        <div class="comfort-grid">
+                            <label class="check-pill"><input type="checkbox" name="comfort" value="Օդորակիչ"> Օդորակիչ</label>
+                            <label class="check-pill"><input type="checkbox" name="comfort" value="Կլիմատ-կոնտրոլ"> Կլիմատ-կոնտրոլ</label>
+                            <label class="check-pill"><input type="checkbox" name="comfort" value="Նստատեղերի մերսում"> Նստատեղերի մերսում</label>
+                            <label class="check-pill"><input type="checkbox" name="comfort" value="Նստատեղերի տաքացում"> Նստատեղերի տաքացում</label>
+                            <label class="check-pill"><input type="checkbox" name="comfort" value="360 տեսախցիկ"> 360 տեսախցիկ</label>
+                            <label class="check-pill"><input type="checkbox" name="comfort" value="Կրուիզ-կոնտրոլ"> Կրուիզ-կոնտրոլ</label>
+                            <label class="check-pill"><input type="checkbox" name="comfort" value="Start/Stop"> Start/Stop</label>
+                        </div>
+                    </div>
+                </details>
+
+                <div class="block-box">
+                    <label class="field-label">Գինը և արժույթը</label>
+                    <div class="form-grid-3">
+                        <input type="number" id="car-price" min="1" placeholder="Գումարը *" required>
+                        <select id="car-currency">
+                            <option value="USD">Դոլար ($)</option>
+                            <option value="AMD">Դրամ (֏)</option>
+                            <option value="EUR">Եվրո (€)</option>
+                            <option value="RUB">Ռուբլի (₽)</option>
+                        </select>
+                        <input type="text" id="car-desc" placeholder="Նկարագրություն">
+                    </div>
+                </div>
+
+                <div class="block-box">
+                    <label class="field-label">Ավելացնել մեքենայի նկարներ (Ավտոմատ սեղմում և 18+ ֆիլտր) *</label>
+                    <input type="file" id="car-photos-input" accept="image/*" multiple required onchange="handlePhotoFiles(event)">
+                    <div class="photo-preview-list" id="photo-preview-list"></div>
+                </div>
+
+                <div class="block-box">
+                    <label class="field-label">Կապի տվյալներ</label>
+                    <div class="form-grid">
+                        <input type="tel" id="contact-phone" placeholder="Հեռախոս (+374 ...)" required>
+                        <input type="text" id="contact-whatsapp" placeholder="WhatsApp համար">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer wizard-footer">
+                <button type="button" class="btn-outline" id="prev-step-btn" onclick="prevStep()" style="display: none;">Հետ</button>
+                <button type="button" class="btn-outline" onclick="closeAddModal()">Փակել</button>
+                <button type="button" class="btn-primary" id="next-step-btn" onclick="nextStep()">Հաջորդը</button>
+                <button type="submit" class="btn-primary" id="submit-car-btn" style="display: none;">Ուղարկել ստուգման</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Детали авто -->
+<div class="modal-backdrop" id="car-details-modal">
+    <div class="modal" id="car-details-content"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nsfwjs@4.1.0/dist/nsfwjs.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
